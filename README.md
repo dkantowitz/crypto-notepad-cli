@@ -13,11 +13,49 @@ A command-line tool for encrypting and decrypting `.cnp` files compatible with t
 
 ## Installation
 
-### Prerequisites
+### Download Pre-built Binaries
+
+Pre-built self-contained executables are available from the [GitHub Releases](https://github.com/your-username/crypto-notepad-cli/releases) page. No .NET runtime installation required.
+
+| Platform       | Download |
+|----------------|----------|
+| Windows x64    | `cnp-win-x64.exe` |
+| Windows ARM64  | `cnp-win-arm64.exe` |
+| macOS x64      | `cnp-osx-x64` |
+| macOS ARM64    | `cnp-osx-arm64` |
+| Linux x64      | `cnp-linux-x64` |
+| Linux ARM64    | `cnp-linux-arm64` |
+
+#### Quick Install (Linux/macOS)
+
+```bash
+# Download the latest release for your platform (example for Linux x64)
+curl -L -o cnp https://github.com/your-username/crypto-notepad-cli/releases/latest/download/cnp-linux-x64
+
+# Make it executable
+chmod +x cnp
+
+# Move to a directory in your PATH
+sudo mv cnp /usr/local/bin/
+```
+
+#### Quick Install (Windows PowerShell)
+
+```powershell
+# Download the latest release
+Invoke-WebRequest -Uri "https://github.com/your-username/crypto-notepad-cli/releases/latest/download/cnp-win-x64.exe" -OutFile "cnp.exe"
+
+# Optionally move to a directory in your PATH
+Move-Item cnp.exe "$env:LOCALAPPDATA\Microsoft\WindowsApps\"
+```
+
+### Build from Source
+
+#### Prerequisites
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
 
-### Build from Source
+#### Build
 
 ```bash
 git clone https://github.com/your-username/crypto-notepad-cli.git
