@@ -83,6 +83,7 @@ cnp <command> [options]
 | `-p, --password <password>`| Password (or set CNP_PASSWORD env var; prompts if omitted) |
 | `-i, --input <file>`       | Input file (default: stdin)                           |
 | `-o, --output <file>`      | Output file (default: stdout)                         |
+| `-q, --quiet`              | Suppress non-essential informational output           |
 | `--key-size <128\|192\|256>`| AES key size in bits (default: 256)                  |
 | `--hash <algorithm>`       | Hash: SHA1, SHA256, SHA384, SHA512, MD5 (default: SHA1) |
 | `--iterations <n>`         | PBKDF1 iterations (default: 1000)                     |
@@ -93,7 +94,16 @@ cnp <command> [options]
 
 1. `--password` / `-p` command-line option
 2. `CNP_PASSWORD` environment variable
-3. Interactive prompt (masked input)
+3. Interactive prompt (masked input, only when stdin is a terminal)
+
+### Pipe Detection
+
+The tool automatically detects when stdin/stdout are pipes and adjusts behavior accordingly:
+
+- **When stdin is piped**: Reads input from stdin automatically
+- **When stdout is piped**: Writes output to stdout; suppresses informational messages to avoid corrupting piped output
+- **When stdin is piped and no password provided**: Fails with a clear error message (use `-p` or `CNP_PASSWORD` when piping input)
+- **Informational messages**: Always sent to stderr, never to stdout (safe for pipelines)
 
 ## Examples
 
@@ -139,6 +149,12 @@ cnp decrypt -i data.cnp -p pass | sort | cnp encrypt -o sorted.cnp -p pass
 export CNP_PASSWORD=mypassword
 cnp decrypt -i secret.cnp
 cnp encrypt -i plain.txt -o secret.cnp
+```
+
+### Quiet mode
+
+```bash
+cnp encrypt -i file.txt -o file.cnp -p mypassword -q
 ```
 
 ### Custom encryption parameters
